@@ -1,4 +1,3 @@
-; $Id$
 name = CMIS
 description = CMIS implementation for interacting with a CMIS compliant repository
 package = CMIS

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Utility function that returns all known vendors

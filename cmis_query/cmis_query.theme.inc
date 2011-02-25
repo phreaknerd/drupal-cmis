@@ -1,5 +1,4 @@
 <?php 
-// $Id$
 
 /**
  * Theme function for CMIS query search results

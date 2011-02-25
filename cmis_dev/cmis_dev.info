@@ -1,4 +1,3 @@
-; $Id$
 name = CMIS Dev
 description = Provides CMIS developer tools  
 package = CMIS

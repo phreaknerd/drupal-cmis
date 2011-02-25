@@ -1,5 +1,4 @@
 <?php 
-// $Id$
 
 /**
  * Utility function for supporting CMIS repository path auto-complete.
