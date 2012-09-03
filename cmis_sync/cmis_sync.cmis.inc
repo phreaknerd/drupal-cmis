@@ -190,9 +190,11 @@ function _cmis_sync_cmis_drupal_prepare($repository, $sync_map_type, $node_type,
     if (!array_key_exists('nid', $sync_map_type['fields'])) {
       $cmis_sync_nodes = db_query('SELECT nid FROM {cmis_sync_node} WHERE cmis_objectId = :obj', array(':obj' => $cmis_object->id)); 
       if ($cmis_sync_nodes->rowCount()) {
-        foreach ($cmis_sync_nodes as $cmis_sync_node) {
-          $drupal_nid = $cmis_sync_node->nid;
-        }  
+        $cmis_sync_node = $cmis_sync_nodes->fetchObject();
+        $drupal_nid = $cmis_sync_node->nid;
+      }
+      else {
+        return FALSE;
       }
     }
     else {

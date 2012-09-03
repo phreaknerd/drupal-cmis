@@ -41,18 +41,18 @@ function _cmis_sync_drupal_cmis_update($node, $op) {
         // send updates only if the current node has a CMIS reference id.
         $result = db_query('SELECT cmis_objectId FROM {cmis_sync_node} WHERE nid = :nid', array(':nid' => $node->nid));
         foreach($result as $row) {
-          drupal_set_message(print_r($cmis_object, true));
+          //drupal_set_message(print_r($row, true));
           try {
             // updating CMIS reference object content stream
             if ($cmis_object->content) {
-              cmisapi_setContentStream($cmis_object->repositoryId, $row->cmis_objectid, $cmis_object->content, $cmis_object->contentStreamMimeType);
+              cmisapi_setContentStream($cmis_object->repositoryId, $row->cmis_objectId, $cmis_object->content, $cmis_object->contentStreamMimeType);
             }
 
             // updating CMIS properties
-            cmisapi_updateProperties($cmis_object->repositoryId, $row->cmis_objectid, $cmis_object->properties);
-            
-            // update changed timestamp 
-            db_query('UPDATE {cmis_sync_node} SET changed_timestamp = :changed WHERE nid = :nid', 
+            cmisapi_updateProperties($cmis_object->repositoryId, $row->cmis_objectId, $cmis_object->properties);
+
+            // update changed timestamp
+            db_query('UPDATE {cmis_sync_node} SET changed_timestamp = :changed WHERE nid = :nid',
               array(':changed' => $_SERVER['REQUEST_TIME'], ':nid' => $node->nid));
           }
           catch (CMISException $e) {
@@ -69,7 +69,7 @@ function _cmis_sync_drupal_cmis_update($node, $op) {
           foreach ($result as $row) {        
             try {
               // delete CMIS reference object content
-              $cmis_object_properties = cmisapi_getProperties($cmis_object->repositoryId, $row->cmis_objectid);
+              $cmis_object_properties = cmisapi_getProperties($cmis_object->repositoryId, $row->cmis_objectId);
               cmisapi_deleteObject($cmis_object->repositoryId, $cmis_object_properties->id);
               
               // delete sync refs 
@@ -202,8 +202,8 @@ function _cmis_sync_drupal_node_field_value(&$node, $field_name, $field_value = 
   
     if (array_key_exists($field_name, $fields)) {
       $content_field = $node->$field_name;
-    
-      switch($fields[$field_name]['widget_type']) {
+
+      switch($fields[$field_name]['widget']['type']) {
         case 'filefield':
           if ($field_value == NULL) {
             if (realpath($content_field[0]['filepath'])) {

@@ -85,7 +85,9 @@ function theme_cmis_browser_browse_children($variables) {
       default:      
         $icon = $document_img;
         if (!empty($_GET['type']) && $_GET['type'] == 'popup') {
-          $link = l($child->properties['cmis:name'], 'cmis/browser', array('query' => array('id' => $child->id, 'type' => 'popup', 'caller' => $_GET['caller'])));
+          $link = l($child->properties['cmis:name'], $child->properties['cmis:path'],
+              array('attributes' => array('class' => 'cmis-field-insert', 'id' => $child->id, 'name' => $child->properties['cmis:name']))
+          );
         }
         else {
           $link = l($child->properties['cmis:name'], 'cmis/browser', array('query' => array('id' => $child->id)));
